@@ -13,11 +13,10 @@ public class EmisorMain {
 
 	public static void main(String[] args) {
 		BufferedReader terminalInput = new BufferedReader(new InputStreamReader(System.in));
-		MulticastSocket multi=null;
-		try {
-			multi = new MulticastSocket();
+		try (MulticastSocket multi = new MulticastSocket();){
+			
 			InetAddress address;
-			address = InetAddress.getByName("224.0.0.251");
+			address = InetAddress.getByName("127.0.0.1");
 			String text = "";
 			while(!text.trim().equals("*")){
 				System.out.println("Mensaje para difusion: ");
@@ -30,8 +29,6 @@ public class EmisorMain {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally {
-			multi.close();
 		}
 		System.out.println("socket closed");
 	}

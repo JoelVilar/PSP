@@ -9,8 +9,8 @@ import java.net.UnknownHostException;
 public class ReceptorMain {
 
 	public static void main(String[] args) {
-		try (MulticastSocket multi = new MulticastSocket(12345);){
-			InetAddress address = InetAddress.getByName("224.0.0.251");
+		try (MulticastSocket multi = new MulticastSocket(12345)){
+			InetAddress address = InetAddress.getByName("127.0.0.1");
 			multi.joinGroup(address);
 			String text = "";
 			byte[] buffer = new byte[1024];
@@ -18,6 +18,7 @@ public class ReceptorMain {
 			while(!text.trim().equals("*")) {
 				DatagramPacket datagram = new DatagramPacket(buffer, buffer.length);
 				multi.receive(datagram);
+				text = new String(datagram.getData());
 				System.out.println("Mensaje recibido:");
 			}
 			multi.leaveGroup(address);

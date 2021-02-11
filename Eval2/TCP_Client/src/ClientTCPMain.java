@@ -16,7 +16,7 @@ public class ClientTCPMain {
 		Socket socket = null;
 		BufferedReader reader = null;
 		Scanner keyB = null;
-		try {
+		try{
 			socket = new Socket("localhost", 3306);
 			String message;
 			PrintWriter writer = new PrintWriter(socket.getOutputStream(),true);
