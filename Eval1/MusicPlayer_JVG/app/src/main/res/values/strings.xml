@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MusicPlayer_JVG</string>
+    <string name="permissions_already_granted">Los permisos ya estaban concedidos.</string>
+    <string name="folder_path">/sdcard/Download/imagenesDescargadas</string>
+    <string name="img_name">caratula</string>
+    <string name="extension">.jpeg</string>
+    <string name="save_ok">- ¡¡guardado con éxito!!</string>
+    <string name="on_download">Mostrando álbumes disponibles.</string>
+</resources>
