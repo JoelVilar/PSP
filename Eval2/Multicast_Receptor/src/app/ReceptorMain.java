@@ -19,7 +19,7 @@ public class ReceptorMain {
 				DatagramPacket datagram = new DatagramPacket(buffer, buffer.length);
 				multi.receive(datagram);
 				text = new String(datagram.getData());
-				System.out.println("Mensaje recibido:");
+				System.out.println("Mensaje recibido:" + text);
 			}
 			multi.leaveGroup(address);
 		}catch (UnknownHostException e) {
