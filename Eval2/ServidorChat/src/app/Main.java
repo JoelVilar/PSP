@@ -1,10 +1,11 @@
 package app;
 
+import controlador.ServidorChat;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		new ServidorChat().launchServer();
 	}
 
 }
