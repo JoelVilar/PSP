@@ -27,6 +27,7 @@ public class ClienteService {
 			PrintWriter writer = new PrintWriter(socket.getOutputStream());
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			//startChatting(writer);
+			
 			writer.close();
 		}catch (UnknownHostException e) {
 			System.err.println("Error. Causa: " + e.getMessage());

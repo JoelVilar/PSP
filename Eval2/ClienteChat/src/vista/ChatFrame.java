@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class ChatFrame extends JFrame {
 
@@ -14,7 +18,7 @@ public class ChatFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public void launchFrame() {
+	public static void launchFrame() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -35,8 +39,15 @@ public class ChatFrame extends JFrame {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 	}
-
+	
+	public void changePanel(JPanel panel) {
+		contentPane.removeAll();
+		contentPane.add(panel);
+		contentPane.repaint();
+		contentPane.revalidate();
+		contentPane.setBounds(100, 100, 650, 743);
+	}
 }
