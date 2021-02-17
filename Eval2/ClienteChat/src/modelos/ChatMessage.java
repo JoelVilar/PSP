@@ -20,7 +20,7 @@ public class ChatMessage {
 	public String getUserName() {
 		return userName;
 	}
-	public void setUserName(String userName) {
+	public void setUsername(String userName) {
 		this.userName = userName;
 	}
 	public String getMessage() {

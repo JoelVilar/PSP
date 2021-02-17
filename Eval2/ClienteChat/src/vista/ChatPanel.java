@@ -3,17 +3,22 @@ package vista;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import modelos.ChatMessage;
+
 import javax.swing.JButton;
 import javax.swing.JTable;
 
 public class ChatPanel extends JPanel {
 	private JTextField textMessage;
 	private JTable chatTable;
+	private ChatMessage chatData;
 
 	/**
 	 * Create the panel.
 	 */
-	public ChatPanel() {
+	public ChatPanel(ChatMessage chatData) {
+		this.chatData=chatData;
 		setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();

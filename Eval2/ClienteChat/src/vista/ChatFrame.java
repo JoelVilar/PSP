@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import modelos.ChatMessage;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,7 +16,7 @@ import javax.swing.SwingConstants;
 
 public class ChatFrame extends JFrame {
 
-	private JPanel contentPane;
+	private static JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -41,9 +44,10 @@ public class ChatFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		changePanel(new LoginPanel(new ChatMessage()));
 	}
 	
-	public void changePanel(JPanel panel) {
+	public static void changePanel(JPanel panel) {
 		contentPane.removeAll();
 		contentPane.add(panel);
 		contentPane.repaint();
