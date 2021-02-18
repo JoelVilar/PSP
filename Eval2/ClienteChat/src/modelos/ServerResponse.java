@@ -1,12 +1,14 @@
 package modelos;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.json.JSONObject;
+
 import service.ClienteService;
-import vista.ChatPanel;
 
 public class ServerResponse extends Thread{
 	private DefaultTableModel tableModel;
@@ -21,15 +23,19 @@ public class ServerResponse extends Thread{
 
 	@Override
 	public void run() {
-		ChatMessage response;
+		String response;
+		JSONObject json;
 		try (ClienteService service = ClienteService.getInstance()){
-			while((response =(ChatMessage) service.getReader().readObject())!=null) {
-				tableModel.addRow(new Object[] {response.getUserName()
+			while((response = service.getReader().readLine())!=null) {
+				json = new JSONObject(response);
+				
+				tableModel.addRow(new Object[] {json.get("username")
 												+ " ("
-												+ response.getTime()
-												+ "): " + response.getMessage()});
+												+ json.get("time")
+												+ "): "
+												+ json.get("message")});
 			}
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (IOException e) {
 			System.err.println("Error en la lectura de respuesta del servidor. Causa: "
 					+ e.getMessage());
 		}

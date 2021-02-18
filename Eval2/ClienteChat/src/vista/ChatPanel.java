@@ -5,7 +5,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import modelos.ChatMessage;
+import org.json.JSONObject;
+
 import modelos.ServerResponse;
 import service.ClienteService;
 
@@ -16,11 +17,10 @@ import java.time.LocalTime;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.CardLayout;
-import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 public class ChatPanel extends JPanel {
-	private ChatMessage chatData;
+	private JSONObject chatData;
 	private JTextField messageText;
 	private JTable chat;
 	private DefaultTableModel tableModel = new DefaultTableModel();
@@ -28,7 +28,7 @@ public class ChatPanel extends JPanel {
 	 * Create the panel.
 	 */
 	
-	public ChatPanel(ChatMessage chatData) {
+	public ChatPanel(JSONObject chatData) {
 		this.chatData=chatData;
 		setLayout(new CardLayout(0, 0));
 		
@@ -52,7 +52,6 @@ public class ChatPanel extends JPanel {
 				}
 			}
 		});
-		
 		JButton sendButton = new JButton("Send");
 		sendButton.setBounds(309, 246, 97, 21);
 		panel.add(sendButton);
@@ -72,8 +71,9 @@ public class ChatPanel extends JPanel {
 	}
 	
 	private void prepareAndSendMessage() {
-		chatData.setMessage(messageText.getText());
-		chatData.setTime(LocalTime.now());
+		chatData.put("message",messageText.getText());
+		chatData.put("time",LocalTime.now());
 		ClienteService.getInstance().sendMessage(chatData);
+		messageText.setText("");
 	}
 }

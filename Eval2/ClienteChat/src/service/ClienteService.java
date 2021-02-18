@@ -1,24 +1,21 @@
 package service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.Closeable;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import modelos.ChatMessage;
+import org.json.JSONObject;
+
 import vista.ChatFrame;
 
 public class ClienteService implements Closeable{
 	private static ClienteService service;
 	private PrintWriter writer;
-	private ObjectInputStream reader;
+	private BufferedReader reader;
 	private Socket socket;
 	
 	
@@ -32,39 +29,29 @@ public class ClienteService implements Closeable{
 		}
 		return service;
 	}
-	/*
-	 * IDEA PARA SOLUCIONAR PROBLEMA.
-	 * CREAR PRINTWRITER PARA MANDAR EL OBJETO COMO UN ARRAY DE BYTES.
-	 * */
+
 	public void launchClient() {
 		try {
 			socket = new Socket("localhost",3306);
 			writer=new PrintWriter(socket.getOutputStream(),true);
-			reader = new ObjectInputStream(socket.getInputStream());
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			ChatFrame.launchFrame();
 		}catch (UnknownHostException e) {
-			System.err.println("Error. Causa: " + e.getMessage());
+			System.err.println("Error en el servicio del cliente. Causa: " + e.getMessage());
 		}catch(IOException e) {
-			System.err.println("Error. Causa: " + e.getMessage());
+			System.err.println("Error en el servicio del cliente. Causa: " + e.getMessage());
 		}
 	}
 	
-	public void sendMessage(ChatMessage chatData) {
-		try {
-			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-			ObjectOutputStream converter = new ObjectOutputStream(bytes);
-			converter.writeObject(chatData);
-			byte[] data = bytes.toByteArray();
-			writer.write(new String(data));
-		} catch (IOException e) {
-			System.err.println("Error de envío. Causa: " + e.getMessage());
-		}
+	public void sendMessage(JSONObject chatData) {
+			writer.println(chatData);
 	}
 	
 	@Override
 	public void close() throws IOException {
 		try {
 			socket.close();
+			
 		}catch(IOException e) {
 			System.err.println("Error al cerrar el socket. Causa: " + e.getMessage());
 		}
@@ -85,11 +72,11 @@ public class ClienteService implements Closeable{
 	}
 
 
-	public ObjectInputStream getReader() {
+	public BufferedReader getReader() {
 		return reader;
 	}
 
-	public void setReader(ObjectInputStream reader) {
+	public void setReader(BufferedReader reader) {
 		this.reader = reader;
 	}
 

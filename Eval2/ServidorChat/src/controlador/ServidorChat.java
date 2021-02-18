@@ -17,7 +17,7 @@ public class ServidorChat {
 				new Cliente(socket).start();
 			}
 		}catch(IOException e) {
-			System.err.println("Error. Causa: " + e.getMessage());
+			System.err.println("Error con el cliente. Causa: " + e.getMessage());
 		}
 		System.out.println("Fin del programa.");
 	}

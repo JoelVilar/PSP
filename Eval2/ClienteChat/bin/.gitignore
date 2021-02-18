@@ -1,4 +1,6 @@
-/vista/
+/app/
+/controlador/
+/libraries/
 /modelos/
 /service/
-/app/
+/vista/

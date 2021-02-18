@@ -1,18 +1,13 @@
 package vista;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import modelos.ChatMessage;
+import org.json.JSONObject;
 
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.CardLayout;
 
 public class ChatFrame extends JFrame {
@@ -47,7 +42,7 @@ public class ChatFrame extends JFrame {
 		contentPane.setFocusable(true);
 		contentPane.setLayout(new CardLayout(0, 0));
 		
-		changePanel(new LoginPanel(new ChatMessage()));
+		changePanel(new LoginPanel(new JSONObject()));
 	}
 	
 	public static void changePanel(JPanel panel) {

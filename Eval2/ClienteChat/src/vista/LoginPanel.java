@@ -10,18 +10,18 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
-import modelos.ChatMessage;
+import org.json.JSONObject;
 import java.awt.CardLayout;
 
 public class LoginPanel extends JPanel {
-	private ChatMessage chatData;
+	private JSONObject chatData;
 	private JPanel framePane;
 	private JTextField usernameText;
 
 	/**
 	 * Create the panel.
 	 */
-	public LoginPanel(ChatMessage chatData) {
+	public LoginPanel(JSONObject chatData) {
 		this.chatData = chatData;
 		setLayout(new CardLayout(0, 0));
 		
@@ -58,7 +58,7 @@ public class LoginPanel extends JPanel {
 	}
 	
 	private void beginChat() {
-		chatData.setUsername(usernameText.getText());
+		chatData.put("username", usernameText.getText());
 		ChatFrame.changePanel(new ChatPanel(chatData));
 	}
 

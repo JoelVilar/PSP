@@ -12,12 +12,12 @@ import java.net.Socket;
 
 public class ServerComunication implements Closeable{
 	private Socket socket;
-	private ObjectInputStream reader;
-	private ObjectOutputStream writer;
+	private BufferedReader reader;
+	private PrintWriter writer;
 	
 	public ServerComunication(Socket socket) throws IOException{
-		this.reader = new ObjectInputStream(socket.getInputStream());
-		this.writer = new ObjectOutputStream(socket.getOutputStream());
+		this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		this.writer = new PrintWriter(socket.getOutputStream(),true);
 	}
 
 	@Override
@@ -38,19 +38,19 @@ public class ServerComunication implements Closeable{
 		this.socket = socket;
 	}
 
-	public ObjectInputStream getReader() {
+	public BufferedReader getReader() {
 		return reader;
 	}
 
-	public void setReader(ObjectInputStream reader) {
+	public void setReader(BufferedReader reader) {
 		this.reader = reader;
 	}
 
-	public ObjectOutputStream getWriter() {
+	public PrintWriter getWriter() {
 		return writer;
 	}
 
-	public void setWriter(ObjectOutputStream writer) {
+	public void setWriter(PrintWriter writer) {
 		this.writer = writer;
 	}
 	
