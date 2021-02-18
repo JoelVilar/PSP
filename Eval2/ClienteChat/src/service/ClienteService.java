@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 import org.json.JSONObject;
 
@@ -31,8 +32,12 @@ public class ClienteService implements Closeable{
 	}
 
 	public void launchClient() {
-		try {
-			socket = new Socket("localhost",3306);
+		System.out.print("Introduzca la dirección ip o dominio con el que quiere comunicar: ");
+		
+		
+		try (Scanner keyB = new Scanner(System.in)){
+			String address = keyB.nextLine();
+			socket = new Socket(address,3306);
 			writer=new PrintWriter(socket.getOutputStream(),true);
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			ChatFrame.launchFrame();
