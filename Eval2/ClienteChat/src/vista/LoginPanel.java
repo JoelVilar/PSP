@@ -11,46 +11,55 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 import modelos.ChatMessage;
+import java.awt.CardLayout;
 
 public class LoginPanel extends JPanel {
-	private JTextField usernameText;
 	private ChatMessage chatData;
 	private JPanel framePane;
+	private JTextField usernameText;
 
 	/**
 	 * Create the panel.
 	 */
 	public LoginPanel(ChatMessage chatData) {
 		this.chatData = chatData;
-		setLayout(null);
+		setLayout(new CardLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		add(panel, "name_39332892635125");
+		panel.setLayout(null);
 		
 		usernameText = new JTextField();
 		usernameText.setHorizontalAlignment(SwingConstants.CENTER);
-		usernameText.setBounds(130, 146, 194, 22);
-		add(usernameText);
 		usernameText.setColumns(10);
+		usernameText.setBounds(127, 160, 197, 22);
+		panel.add(usernameText);
 		
-		JLabel lblUsername = new JLabel("USERNAME");
-		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUsername.setBounds(169, 117, 116, 16);
-		add(lblUsername);
-		
-		JButton btnEnter = new JButton("Enter");
-		btnEnter.setBounds(179, 191, 97, 25);
-		add(btnEnter);
-		
-		btnEnter.addKeyListener(new KeyAdapter() {
+		JButton enterButton = new JButton("Enter");
+		enterButton.setBounds(181, 194, 97, 25);
+		panel.add(enterButton);
+		enterButton.addActionListener(e->beginChat());
+		enterButton.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int option = e.getKeyChar();
-				switch(option) {
+				switch (option) {
 				case KeyEvent.VK_ENTER:
-					chatData.setUsername(usernameText.getText());
-					ChatFrame.changePanel(new ChatPanel(chatData));
+					beginChat();
+					break;
 				}
 			}
 		});
-
+		
+		JLabel usernameLabel = new JLabel("Username");
+		usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		usernameLabel.setBounds(144, 109, 166, 16);
+		panel.add(usernameLabel);
+	}
+	
+	private void beginChat() {
+		chatData.setUsername(usernameText.getText());
+		ChatFrame.changePanel(new ChatPanel(chatData));
 	}
 
 }

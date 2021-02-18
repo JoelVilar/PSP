@@ -1,8 +1,9 @@
 package modelos;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
-public class ChatMessage {
+public class ChatMessage implements Serializable{
 	private String userName;
 	private String message;
 	private LocalTime time;

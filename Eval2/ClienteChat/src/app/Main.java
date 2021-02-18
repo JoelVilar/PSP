@@ -1,9 +1,11 @@
 package app;
 
+import vista.ChatFrame;
+
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("Exito");
+		ChatFrame.launchFrame();
 	}
 
 }

@@ -3,15 +3,19 @@ package modelos;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import javax.swing.table.DefaultTableModel;
+
 public class ServerResponse extends Thread{
 	private ObjectInputStream reader;
 	private String userName;
+	private DefaultTableModel tableModel;
 
 	public ServerResponse() {
 	}
 
-	public ServerResponse(ObjectInputStream reader, String userName) {
+	public ServerResponse(ObjectInputStream reader, String userName, DefaultTableModel tableModel) {
 		super();
+		this.tableModel=tableModel;
 		this.userName = userName;
 		this.reader = reader;
 	}
@@ -22,7 +26,7 @@ public class ServerResponse extends Thread{
 		try {
 			while((response =(ChatMessage) reader.readObject())!=null) {
 				if(response.getUserName().equals(userName)) {
-					//DataToBePrinted
+					tableModel.addRow(new Object[] {response.getUserName() + ": " + response.getMessage()});
 				}
 			}
 		} catch (ClassNotFoundException | IOException e) {
