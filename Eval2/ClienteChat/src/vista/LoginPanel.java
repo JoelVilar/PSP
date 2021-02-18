@@ -39,7 +39,7 @@ public class LoginPanel extends JPanel {
 		enterButton.setBounds(181, 194, 97, 25);
 		panel.add(enterButton);
 		enterButton.addActionListener(e->beginChat());
-		enterButton.addKeyListener(new KeyAdapter() {
+		usernameText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int option = e.getKeyChar();

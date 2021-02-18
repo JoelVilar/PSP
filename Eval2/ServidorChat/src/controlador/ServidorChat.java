@@ -13,10 +13,12 @@ public class ServidorChat {
 			Socket socket;
 			while(true) {
 				socket = serverSocket.accept();
+				System.out.println("Cliente conectado");
 				new Cliente(socket).start();
 			}
 		}catch(IOException e) {
 			System.err.println("Error. Causa: " + e.getMessage());
 		}
+		System.out.println("Fin del programa.");
 	}
 }

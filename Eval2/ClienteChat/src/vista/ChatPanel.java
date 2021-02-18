@@ -23,9 +23,11 @@ public class ChatPanel extends JPanel {
 	private ChatMessage chatData;
 	private JTextField messageText;
 	private JTable chat;
+	private DefaultTableModel tableModel = new DefaultTableModel();
 	/**
 	 * Create the panel.
 	 */
+	
 	public ChatPanel(ChatMessage chatData) {
 		this.chatData=chatData;
 		setLayout(new CardLayout(0, 0));
@@ -39,12 +41,7 @@ public class ChatPanel extends JPanel {
 		messageText.setBounds(32, 246, 264, 22);
 		panel.add(messageText);
 		messageText.setColumns(10);
-		
-		JButton sendButton = new JButton("Send");
-		sendButton.setBounds(309, 246, 97, 21);
-		panel.add(sendButton);
-		sendButton.addActionListener(e->prepareAndSendMessage());
-		sendButton.addKeyListener(new KeyAdapter() {
+		messageText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int option = e.getKeyChar();
@@ -55,17 +52,23 @@ public class ChatPanel extends JPanel {
 				}
 			}
 		});
+		
+		JButton sendButton = new JButton("Send");
+		sendButton.setBounds(309, 246, 97, 21);
+		panel.add(sendButton);
+		sendButton.addActionListener(e->prepareAndSendMessage());
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(32, 33, 374, 200);
 		panel.add(scrollPane);
 		
 		chat = new JTable();
 		scrollPane.setViewportView(chat);
-		DefaultTableModel tableModel = new DefaultTableModel();
 		tableModel.setColumnCount(1);
 		tableModel.setRowCount(0);
+		chat.setModel(tableModel);
 		
-		new ServerResponse().start();
+		new ServerResponse(tableModel).start();
 	}
 	
 	private void prepareAndSendMessage() {

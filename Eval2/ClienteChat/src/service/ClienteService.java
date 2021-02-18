@@ -1,9 +1,14 @@
 package service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -12,7 +17,7 @@ import vista.ChatFrame;
 
 public class ClienteService implements Closeable{
 	private static ClienteService service;
-	private ObjectOutputStream writer;
+	private PrintWriter writer;
 	private ObjectInputStream reader;
 	private Socket socket;
 	
@@ -27,11 +32,14 @@ public class ClienteService implements Closeable{
 		}
 		return service;
 	}
-	
+	/*
+	 * IDEA PARA SOLUCIONAR PROBLEMA.
+	 * CREAR PRINTWRITER PARA MANDAR EL OBJETO COMO UN ARRAY DE BYTES.
+	 * */
 	public void launchClient() {
 		try {
 			socket = new Socket("localhost",3306);
-			writer = new ObjectOutputStream(socket.getOutputStream());
+			writer=new PrintWriter(socket.getOutputStream(),true);
 			reader = new ObjectInputStream(socket.getInputStream());
 			ChatFrame.launchFrame();
 		}catch (UnknownHostException e) {
@@ -43,7 +51,11 @@ public class ClienteService implements Closeable{
 	
 	public void sendMessage(ChatMessage chatData) {
 		try {
-			writer.writeObject(chatData);
+			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+			ObjectOutputStream converter = new ObjectOutputStream(bytes);
+			converter.writeObject(chatData);
+			byte[] data = bytes.toByteArray();
+			writer.write(new String(data));
 		} catch (IOException e) {
 			System.err.println("Error de envío. Causa: " + e.getMessage());
 		}
@@ -56,11 +68,7 @@ public class ClienteService implements Closeable{
 		}catch(IOException e) {
 			System.err.println("Error al cerrar el socket. Causa: " + e.getMessage());
 		}
-		try {
-			writer.close();
-		}catch(IOException e) {
-			System.err.println("Error al cerrar el flujo de salida. Causa: " + e.getMessage());
-		}
+		writer.close();
 		try {
 			reader.close();
 		}catch(IOException e) {
@@ -76,13 +84,6 @@ public class ClienteService implements Closeable{
 		ClienteService.service = service;
 	}
 
-	public ObjectOutputStream getWriter() {
-		return writer;
-	}
-
-	public void setWriter(ObjectOutputStream writer) {
-		this.writer = writer;
-	}
 
 	public ObjectInputStream getReader() {
 		return reader;

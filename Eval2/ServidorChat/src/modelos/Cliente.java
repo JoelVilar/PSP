@@ -14,11 +14,12 @@ public class Cliente extends Thread{
 	@Override
 	public void run() {
 		try(ServerComunication comunication = new ServerComunication(socket)){
-			String data;
-			while(!(data = comunication.getReader().readLine()).equals("*")) {
-				comunication.getWriter().println(data);
+			ChatMessage data;
+			while((data = (ChatMessage) comunication.getReader().readObject())!=null) {
+				comunication.getWriter().writeObject(data);
+				System.out.println(data.getMessage());
 			}
-		}catch(IOException e) {
+		}catch(IOException | ClassNotFoundException e) {
 			System.err.println("Error. Causa: " + e.getMessage());
 		}
 	}
