@@ -1,11 +1,11 @@
 package app;
 
-import vista.ChatFrame;
+import service.ClienteService;
 
 public class Main {
 
 	public static void main(String[] args) {
-		ChatFrame.launchFrame();
+		ClienteService.getInstance().launchClient();
 	}
 
 }

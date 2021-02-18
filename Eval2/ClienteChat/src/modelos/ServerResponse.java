@@ -5,18 +5,18 @@ import java.io.ObjectInputStream;
 
 import javax.swing.table.DefaultTableModel;
 
+import service.ClienteService;
+
 public class ServerResponse extends Thread{
 	private ObjectInputStream reader;
-	private String userName;
 	private DefaultTableModel tableModel;
 
 	public ServerResponse() {
 	}
 
-	public ServerResponse(ObjectInputStream reader, String userName, DefaultTableModel tableModel) {
+	public ServerResponse(ObjectInputStream reader, DefaultTableModel tableModel) {
 		super();
 		this.tableModel=tableModel;
-		this.userName = userName;
 		this.reader = reader;
 	}
 
@@ -25,29 +25,20 @@ public class ServerResponse extends Thread{
 		ChatMessage response;
 		try {
 			while((response =(ChatMessage) reader.readObject())!=null) {
-				if(response.getUserName().equals(userName)) {
-					tableModel.addRow(new Object[] {response.getUserName() + ": " + response.getMessage()});
-				}
+				tableModel.addRow(new Object[] {response.getUserName() + ": " + response.getMessage()});
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			System.err.println("Error en la lectura de respuesta del servidor. Causa: "
 					+ e.getMessage());
 		}finally {
 			try {
-				reader.close();
+				System.out.println("Cierre del servicio.");
+				ClienteService.getInstance().close();
 			} catch (IOException e) {
-				System.err.println("Error al cerrar el lector del servidor. Causa: "
-						+ e.getMessage());
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public ObjectInputStream getReader() {

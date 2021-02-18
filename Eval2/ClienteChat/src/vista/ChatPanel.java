@@ -6,6 +6,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import modelos.ChatMessage;
+import modelos.ServerResponse;
+import service.ClienteService;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -19,7 +21,7 @@ import javax.swing.SwingConstants;
 
 public class ChatPanel extends JPanel {
 	private ChatMessage chatData;
-	private JTextField usernameText;
+	private JTextField messageText;
 	private JTable chat;
 	/**
 	 * Create the panel.
@@ -32,22 +34,23 @@ public class ChatPanel extends JPanel {
 		add(panel, "name_39712233652616");
 		panel.setLayout(null);
 		
-		usernameText = new JTextField();
-		usernameText.setHorizontalAlignment(SwingConstants.CENTER);
-		usernameText.setBounds(32, 246, 264, 22);
-		panel.add(usernameText);
-		usernameText.setColumns(10);
+		messageText = new JTextField();
+		messageText.setHorizontalAlignment(SwingConstants.CENTER);
+		messageText.setBounds(32, 246, 264, 22);
+		panel.add(messageText);
+		messageText.setColumns(10);
 		
 		JButton sendButton = new JButton("Send");
 		sendButton.setBounds(309, 246, 97, 21);
 		panel.add(sendButton);
-		sendButton.addActionListener(e->System.out.println());
+		sendButton.addActionListener(e->prepareAndSendMessage());
 		sendButton.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int option = e.getKeyChar();
 				switch (option) {
 				case KeyEvent.VK_ENTER:
+					prepareAndSendMessage();
 					break;
 				}
 			}
@@ -61,6 +64,13 @@ public class ChatPanel extends JPanel {
 		DefaultTableModel tableModel = new DefaultTableModel();
 		tableModel.setColumnCount(1);
 		tableModel.setRowCount(0);
-
+		
+		new ServerResponse().start();
+	}
+	
+	private void prepareAndSendMessage() {
+		chatData.setMessage(messageText.getText());
+		chatData.setTime(LocalTime.now());
+		ClienteService.getInstance().sendMessage(chatData);
 	}
 }
