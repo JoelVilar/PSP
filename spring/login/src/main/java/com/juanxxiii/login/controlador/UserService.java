@@ -18,27 +18,25 @@ public class UserService {
 		
 	}
 	
-	public UserService getInstance() {
+	public static UserService getInstance() {
 		if(userService == null) userService = new UserService();
 		return userService;
 	}
 	
 	
-	public void login(User user) {
+	public String login(User user) {
 		BufferedReader reader = null;
 		try {
-			URL url = new URL("http://localhost:port/user/login/" + user.getName());
+			URL url = new URL("http://localhost:8081/user/login/" + user.getName());
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			System.out.println("Respuesta");
 			int response = connection.getResponseCode();
 			if(response == HttpsURLConnection.HTTP_OK) {
 				reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line;
-				while((line = reader.readLine())!= null) {
-					System.out.println(line);
-				}
-			}
+				String line= reader.readLine();
+				return line;
+			}else return "Usuario incorrecto";
 		}catch(IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -48,6 +46,6 @@ public class UserService {
 				e.printStackTrace();
 			}
 		}
-		
+		return "Error en la petición";
 	}
 }

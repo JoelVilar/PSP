@@ -3,9 +3,10 @@ package com.juanxxiii.login.vista;
 import java.util.Scanner;
 
 import com.juanxxiii.login.controlador.MyCipher;
+import com.juanxxiii.login.controlador.UserService;
 import com.juanxxiii.login.entities.User;
 
-public class vista {
+public class Vista {
 	public static void menu() {
 		Scanner keyB = new Scanner(System.in);
 		int option;
@@ -17,6 +18,7 @@ public class vista {
 			option = keyB.nextInt();
 			switch(option) {
 			case 1:
+				login(keyB);
 				break;
 			case 2:
 				break;
@@ -26,12 +28,13 @@ public class vista {
 		}while(option!=0);
 	}
 	
-	private void login(Scanner keyB) {
+	public static void login(Scanner keyB) {
 		keyB.nextLine();
 		System.out.println("Introduzca un nombre de usuario:");
 		String name = keyB.nextLine();
 		System.out.println("Introduzca una contraseña");
 		String password = keyB.nextLine();
 		User newUser = new User(name, MyCipher.getValueHashed(password));
+		UserService.getInstance().login(newUser);
 	}
 }
