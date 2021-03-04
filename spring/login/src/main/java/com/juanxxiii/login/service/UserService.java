@@ -18,12 +18,16 @@ public class UserService {
 	private IUserRepository userRepository;
 	
 	public Long isUserCorrect(User user) {
-		return this.userRepository.userIsCorrect(user);
+		return this.userRepository.userIsCorrect(user.getName(),user.getPassword());
+	}
+	
+	public Optional<User> getUser(Long id) {
+		return this.userRepository.findById(id);
 	}
 	
 	public Optional<User> createUser(User user) {
 		Optional<User> userOptional = Optional.empty();
-		if(this.userRepository.getUserByName(user)==Long.valueOf(0)) {
+		if(this.userRepository.getUserByName(user.getName())==Long.valueOf(0)) {
 			return userOptional.of(this.userRepository.save(user));
 		}else return userOptional;
 	}

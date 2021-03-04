@@ -18,7 +18,7 @@ import com.juanxxiii.login.entities.User;
 import com.juanxxiii.login.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -30,6 +30,10 @@ public class UserController {
 		if (this.userService.isUserCorrect(user) > Long.valueOf(0)) {
 			return "Loggeado correctamente";
 		} else throw new UserIsNotCorrectException("Datos del usuario incorrectos.");
+	}
+	@GetMapping("/{id}")
+	public User getById(@PathVariable Long id) {
+		return this.userService.getUser(id).get();
 	}
 	
 	@PutMapping("/register")

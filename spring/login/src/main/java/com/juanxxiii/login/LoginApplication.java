@@ -1,4 +1,4 @@
-package com.juanxxiii.login.app;
+package com.juanxxiii.login;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
