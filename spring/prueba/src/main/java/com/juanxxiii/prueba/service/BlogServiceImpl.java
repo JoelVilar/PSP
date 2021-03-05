@@ -1,6 +1,5 @@
 package com.juanxxiii.prueba.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +15,14 @@ import com.juanxxiii.prueba.repository.BlogRepository;
 @Transactional
 public class BlogServiceImpl{
 	@Autowired
-	BlogRepository blogRepository;
+	private BlogRepository blogRepository;
 	
 	public Optional<Blog> findById(Integer id){
 		return this.blogRepository.findById(id);
+	}
+	
+	public List<Blog> findByTitle(String title){
+		return this.blogRepository.findByTitle(title);
 	}
 
 	public List<Blog> findAll(){

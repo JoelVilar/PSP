@@ -5,15 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Accessors(chain = true)
+
 @Entity
 public class Blog {
 	@Id
@@ -26,8 +19,39 @@ public class Blog {
 		super();
 	}
 	
+	public Blog(Integer id, String title, String content) {
+		this.id = id;
+		this.title=title;
+		this.content=content;
+	}
+	
 	public Blog(String title, String content) {
 		this.title=title;
 		this.content=content;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
 }
